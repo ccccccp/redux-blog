@@ -1,7 +1,7 @@
 const devServer = require("webpack-dev-server");
 process.env.NODE_ENV = 'development';
 const webpack = require("webpack")
-const config = require("../webpack.config");
+const config = require("../webpack/webpack.config");
 const compiler = webpack(config);
 const path = require("path")
 const server = new devServer(compiler, {
