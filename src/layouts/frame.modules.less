@@ -1,0 +1,51 @@
+.app-layout {
+    .header {
+        min-width:1200px;
+        box-sizing:border-box;
+        width:100%;
+        background-color:white;
+        padding:15px 24px;
+        display:flex;
+        box-shadow: 0 2px 4px 0 rgba(0,0,0,.05);
+        .nav{
+            flex:3;
+            display:flex;
+            a{
+                    flex:1;
+                    width:100%;
+                    text-align:center;
+                    display:block;
+                    padding:15px 0;
+                    margin:0 15px;
+                    &.active{
+                        color:blue
+                    }
+                }
+        }
+        .logo{
+            width:120px;
+            height:48px;
+            img{
+                width:100%;
+                height:100%;
+            }
+        }
+    }
+    .section{
+        min-width:1156px;
+        margin:0 auto;
+        padding:10px 22px 0;
+        .app-left,.app-section,.app-right{
+            float:left;
+        }
+        .app-left{
+            margin-right:14px;
+        }
+        .app-section{
+            width:746px;
+        }
+        .app-right{
+            width:300px;
+        }
+    }
+}

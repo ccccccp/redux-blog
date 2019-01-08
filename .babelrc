@@ -1,0 +1,18 @@
+{
+    "presets": [
+        "react",
+        "env",
+        "stage-0"
+    ],
+    "plugins": [
+        "transform-decorators-legacy",
+        [
+            "import",
+            {
+                "libraryName": "lodash",
+                "libraryDirectory": "",
+                "camel2DashComponentName": false
+            }
+        ]
+    ]
+}
