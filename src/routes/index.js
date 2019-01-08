@@ -9,9 +9,8 @@ const Test1 = ({ match }) => {
     return <div>test1-component
     </div>
 }
-const LayOut = () => {
-    console.log("layout!")
-    return <Frame>
+const LayOut = () =>
+    <Frame>
         <Switch>
             <Redirect from={`/`} to={`/preview/newarticles`} exact />
             <Route path={`/preview/:id`} exact component={Home} />
@@ -19,7 +18,7 @@ const LayOut = () => {
             <Route path={`/test`} exact component={Test1} />
         </Switch>
     </Frame>
-}
+
 console.log(Home)
 const routerMap = () => (
     <Router history={history}>
