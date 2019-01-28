@@ -2,6 +2,9 @@ const path = require("path");
 const webpack = require("webpack");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CleanWebpackPlugin = require("clean-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const ProgressBarWebpackPlugin = require("progress-bar-webpack-plugin");
+const OptimizeCssAssetsWebpackPlugin = require("optimize-css-assets-webpack-plugin");
 
 console.log(process.env.NODE_ENV)
 const config = {
@@ -17,7 +20,7 @@ const config = {
     output: {
         path: path.resolve(__dirname, '../dist'),
         filename: 'js/[name].[hash:7].js',
-        chunkFilename:'js/[name].[hash:7].js',// 设置按需加载后的chunk名字
+        chunkFilename:'js/[name].[chunkhash:7].js',// 设置按需加载后的chunk名字
         publicPath: '/'
     },
     module: {
@@ -30,7 +33,9 @@ const config = {
         {
             test: /\.(css)|(less)$/,
             use: [
-                'style-loader',
+                {
+                    loader:MiniCssExtractPlugin.loader
+                },
                 {
                     loader: 'css-loader',
                     options: {
@@ -71,6 +76,11 @@ const config = {
         }]
     },
     plugins: [
+        new ProgressBarWebpackPlugin(),
+        new MiniCssExtractPlugin({
+            filename: 'css/[name].[hash:8].css',
+            chunkFilename: 'css/[name].[chunkhash:8].chunk.css'
+        }),
         new HtmlWebpackPlugin({
             filename: 'index.html',
             template: path.resolve(__dirname,'../src/index.html'),
@@ -88,18 +98,19 @@ const config = {
         })
     ],
     optimization: {
-        // webpack4.* chunks分离
         splitChunks: {
-            // chunks: "all", // 所有的 chunks 代码公共的部分分离出来成为一个单独的文件
             cacheGroups: {
                 vendor: {
                     chunks: "initial",
                     test: "vendor",
-                    name: "vendor", // 使用 vendor 入口作为公共部分
+                    name: "vendor",
                     enforce: true,
                 },
             }
-        }
+        },
+        minimizer:[
+            new OptimizeCssAssetsWebpackPlugin({})
+        ]
     },
     resolve: {
         extensions: [".js", ".jsx", ".less", ".css"],

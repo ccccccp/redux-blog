@@ -1,6 +1,7 @@
 const path = require("path");
 const webpack = require("webpack");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 const config = {
     context: path.resolve(__dirname, '../'),
@@ -18,7 +19,7 @@ const config = {
         publicPath: '/'
     },
     devServer: {
-        contentBase: path.resolve(__dirname, '../src'),
+        //contentBase: path.resolve(__dirname, '../src'),
         hot: true,
         port: 8084,
         host: '0.0.0.0',
@@ -39,7 +40,9 @@ const config = {
         {
             test: /\.(css)|(less)$/,
             use: [
-                'style-loader',
+                {
+                    loader:MiniCssExtractPlugin.loader
+                },
                 {
                     loader: 'css-loader',
                     options: {
@@ -79,6 +82,10 @@ const config = {
         }]
     },
     plugins: [
+        new MiniCssExtractPlugin({
+            filename: 'css/[name].[hash:8].css',
+            chunkFilename: 'css/[name].[chunkhash:8].chunk.css'
+        }),
         new HtmlWebpackPlugin({
             filename: 'index.html',
             template: path.resolve(__dirname, '../src/index.html')

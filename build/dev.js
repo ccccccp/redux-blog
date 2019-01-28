@@ -5,7 +5,7 @@ const config = require("../webpack/webpack.config");
 const compiler = webpack(config);
 const path = require("path")
 const server = new devServer(compiler, {
-    contentBase: path.resolve(__dirname, "../src"),
+    //contentBase: path.resolve(__dirname, "../src"),
     hot: true,
     host: '0.0.0.0',
     historyApiFallback: {
