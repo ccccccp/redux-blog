@@ -15,4 +15,4 @@ async function fun(){
   var res = await A();
   console.log("after",res);
 }
-fun()
+fun();
