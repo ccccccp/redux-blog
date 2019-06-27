@@ -4,15 +4,10 @@ import { connect } from 'react-redux';
 import PreviewList from '@/components/commons/PreviewList.js';
 import LeftNav from '@/components/commons/LeftNav.jsx';
 import { prevListActions } from '@/views/HomeRedux.js';
-@connect((state) => {
-    return {
-        prevList: state.home.prevList
-    }
-}, (dispatch) => {
-    return {
-        ...bindActionCreators(prevListActions, dispatch)
-    }
-})
+@connect(
+  state => ({prevList: state.home.prevList}),
+  dispatch => ({...bindActionCreators(prevListActions, dispatch)})
+)
 export default class Home extends Component {
     constructor(props) {
         super(props);

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import LeftNav from '@/components/commons/LeftNav.jsx';
 import styles from '@/layouts/frame.modules.less';
-import Preview from "@/components/Home/Preview.js";
+import Preview from "@/components/Home/Preview";
 @withRouter
 export default class extends Component {
     render() {
