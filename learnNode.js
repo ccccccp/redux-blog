@@ -14,6 +14,5 @@ async function fun(){
   console.log("before");
   var res = await A();
   console.log("after",res);
-
 }
 fun()
