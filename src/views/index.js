@@ -11,3 +11,8 @@ export const Detail = Loadable({
   loader:()=>import( /* webpackChunkName: "detail" */  "./Detail"),
   loading:Loading
 });
+
+export const Login = Loadable({
+  loader:()=>import( /* webpackChunkName: "login" */  "./Login"),
+  loading:Loading
+});

@@ -1,2 +1,2 @@
-import {createFetchGet} from './lib/fetchGet.js';
-export default createFetchGet("");
+import * as createFetchGetAll from './lib/fetchGet.js';
+export default createFetchGetAll.createFetchGet

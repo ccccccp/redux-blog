@@ -36,7 +36,7 @@ export default class extends Component {
                         : error ?
                             (<a>首页</a>)
                             : (Array.isArray(navData) && navData.map(nav =>
-                                <NavLink key={nav.name} to={`/preview/${nav.name}`}>{nav.text}</NavLink>
+                                <NavLink key={nav.name} to={`/app/preview/${nav.name}`}>{nav.text}</NavLink>
                             ))
                 }
             </div>

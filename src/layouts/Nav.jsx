@@ -7,6 +7,7 @@ class Nav extends Component {
                 <div className={styles["nav"]}>
                     <NavLink to="/" exact={true}>首页</NavLink>
                     <NavLink to="/detail/222">详情</NavLink>
+                    <a href="/logout">退出登录</a> 
                 </div>
         );
     }

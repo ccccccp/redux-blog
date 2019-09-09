@@ -2,32 +2,26 @@ const path = require("path");
 const webpack = require("webpack");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CleanWebpackPlugin = require("clean-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const ProgressBarWebpackPlugin = require("progress-bar-webpack-plugin");
+const OptimizeCssAssetsWebpackPlugin = require("optimize-css-assets-webpack-plugin");
 
 console.log(process.env.NODE_ENV)
 const config = {
+    devtool:false,
+    mode:'production',
+    context:path.resolve(__dirname,'../'),
     entry: {
-        index: ['babel-polyfill',path.join(__dirname, 'src/app.js')],
+        index: ['babel-polyfill',path.resolve(__dirname, '../src/app.js')],
         vendor: ["react"
             , "react-dom"
         ]
     },
     output: {
-        path: path.join(__dirname, 'dist'),
+        path: path.resolve(__dirname, '../dist'),
         filename: 'js/[name].[hash:7].js',
-        chunkFilename:'js/[name].[hash:7].js',// 设置按需加载后的chunk名字
-        publicPath: '/'
-    },
-    devServer: {
-        contentBase: path.join(__dirname, 'src'),
-        hot: true,
-        host: '0.0.0.0',
-        port:8084,
-        historyApiFallback: {
-            disableDotRule: true
-        },
-        overlay: true,
-        inline: true,
-        stats: "errors-only"
+        chunkFilename:'js/[name].[chunkhash:7].js',// 设置按需加载后的chunk名字
+        publicPath: '//cdn.codediy.club'
     },
     module: {
         rules: [{
@@ -39,7 +33,9 @@ const config = {
         {
             test: /\.(css)|(less)$/,
             use: [
-                'style-loader',
+                {
+                    loader:MiniCssExtractPlugin.loader
+                },
                 {
                     loader: 'css-loader',
                     options: {
@@ -59,15 +55,8 @@ const config = {
                 }
             ]
         }, {
-            test: /\.(jpe?g|gif|png)$/,
+            test: /\.(jpe?g|gif|png|svg)$/,
             use: [
-                // {
-                //     loader: 'url-loader',
-                //     options: {
-                //         limit: 8192,
-                //         fallback: "file-loader"
-                //     }
-                // }, 
                 {
                     loader: 'file-loader',
                     options: {
@@ -75,52 +64,59 @@ const config = {
                         outputPath: 'assets/images'
                     }
                 }]
-        }
-        ]
+        },{
+            test: /\.(woff|woff2|eot|ttf|otf)$/,
+            use: [{
+                    loader: 'file-loader',
+                    options: {
+                        name: '[name].[hash:7].[ext]',
+                        outputPath: 'assets/fonts'
+                    }
+            }]
+        }]
     },
     plugins: [
+        new ProgressBarWebpackPlugin(),
+        new MiniCssExtractPlugin({
+            filename: 'css/[name].[hash:8].css',
+            chunkFilename: 'css/[name].[chunkhash:8].chunk.css'
+        }),
         new HtmlWebpackPlugin({
             filename: 'index.html',
-            template: 'src/index.html',
-            minify: process.env.NODE_ENV == 'production' ? { // 压缩 HTML 的配置
+            template: path.resolve(__dirname,'../src/index.html'),
+            title:'index-html',
+            minify: { // 压缩 HTML 的配置
                 minifyCSS: true, // 压缩 HTML 中出现的 CSS 代码
                 minifyJS: true, // 压缩 HTML 中出现的 JS 代码
                 removeComments: true,   // 移除注释
                 collapseWhitespace: true,   // 缩去空格
                 removeAttributeQuotes: true // 移除属性引号
-            } : {}
+            }
         }),
         new CleanWebpackPlugin(['dist'], {
-            root: __dirname,
-            verbose: true,
-            dry: false,
-            watch: true
-        }),
-        new webpack.NamedModulesPlugin(),
-        new webpack.HotModuleReplacementPlugin()
+            root: path.resolve(__dirname,'../')
+        })
     ],
     optimization: {
-        // webpack4.* chunks分离
         splitChunks: {
-            // chunks: "all", // 所有的 chunks 代码公共的部分分离出来成为一个单独的文件
             cacheGroups: {
                 vendor: {
                     chunks: "initial",
                     test: "vendor",
-                    name: "vendor", // 使用 vendor 入口作为公共部分
+                    name: "vendor",
                     enforce: true,
                 },
             }
-        }
+        },
+        minimizer:[
+            new OptimizeCssAssetsWebpackPlugin({})
+        ]
     },
     resolve: {
         extensions: [".js", ".jsx", ".less", ".css"],
         alias: {
-            "@": path.resolve(__dirname, './src/')
+            "@": path.resolve(__dirname, '../src/')
         }
     }
 };
-if(process.env.NODE_ENV ==='development'){
-    config.devtool = 'eval-source-map'
-}
 module.exports = config;
